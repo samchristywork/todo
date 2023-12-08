@@ -38,4 +38,12 @@ case "$1" in
 
     exit 0
     ;;
+  show)
+    cat $filename
+    exit 0
+    ;;
+  edit)
+    $EDITOR $filename
+    exit 0
+    ;;
 esac
