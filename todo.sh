@@ -12,3 +12,26 @@ if [ "$1" = "help" ]; then
   echo "  help"
   exit 1
 fi
+
+case "$1" in
+  add)
+    DATE=$(date +%Y-%m-%d)
+
+    echo "Status: todo
+    Created: $DATE
+    Name: " > /tmp/todo.txt
+
+    $EDITOR /tmp/todo.txt
+
+    if [ -s /tmp/todo.txt ]; then
+      sed 's/.\+: //g' < /tmp/todo.txt | \
+        tr '\n' '\t' | \
+        sed 's/\t$/\n/g' >> $filename
+              echo "Added to $filename"
+            else
+              echo "No changes made"
+    fi
+
+    exit 0
+    ;;
+esac
