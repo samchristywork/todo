@@ -6,18 +6,16 @@ if [ $# -eq 0 ]; then
   ./todo.sh add
 fi
 
-if [ "$1" = "help" ]; then
-  echo "Usage: $0 <command>"
-  echo "Commands:"
-  echo "  add"
-  echo "  show"
-  echo "  edit"
-  echo "  summary"
-  echo "  help"
-  exit 1
-fi
-
 case "$1" in
+  help)
+    echo "Usage: $0 <command>"
+    echo "Commands:"
+    echo "  add"
+    echo "  show"
+    echo "  edit"
+    echo "  summary"
+    echo "  help"
+    ;;
   add)
     DATE=$(date +%Y-%m-%d)
 
@@ -35,16 +33,12 @@ case "$1" in
             else
               echo "No changes made"
     fi
-
-    exit 0
     ;;
   show)
     cat $filename
-    exit 0
     ;;
   edit)
     $EDITOR $filename
-    exit 0
     ;;
   summary)
     echo "Summary"
@@ -52,7 +46,6 @@ case "$1" in
     echo "Total: $(wc -l < $filename)"
     echo "Completed: $(grep -c "Status: done" $filename)"
     echo "Pending: $(grep -c "Status: todo" $filename)"
-    exit 0
     ;;
   *)
     echo "Invalid command"
