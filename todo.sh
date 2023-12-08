@@ -2,6 +2,10 @@
 
 filename="todo.txt"
 
+if [ $# -eq 0 ]; then
+  ./todo.sh add
+fi
+
 if [ "$1" = "help" ]; then
   echo "Usage: $0 <command>"
   echo "Commands:"
