@@ -46,4 +46,16 @@ case "$1" in
     $EDITOR $filename
     exit 0
     ;;
+  summary)
+    echo "Summary"
+    echo "-------"
+    echo "Total: $(wc -l < $filename)"
+    echo "Completed: $(grep -c "Status: done" $filename)"
+    echo "Pending: $(grep -c "Status: todo" $filename)"
+    exit 0
+    ;;
+  *)
+    echo "Invalid command"
+    exit 1
+    ;;
 esac
