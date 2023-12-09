@@ -1,6 +1,6 @@
 #!/bin/bash
 
-filename="todo.txt"
+filename="$HOME/todo"
 
 if [ $# -eq 0 ]; then
   ./todo.sh add
@@ -29,24 +29,24 @@ case "$1" in
     if [ -s /tmp/todo.txt ]; then
       sed 's/.\+: //g' < /tmp/todo.txt | \
         tr '\n' '\t' | \
-        sed 's/\t$/\n/g' >> $filename
+        sed 's/\t$/\n/g' >> "$filename"
               echo "Added to $filename"
             else
               echo "No changes made"
     fi
     ;;
   show)
-    cat $filename
+    cat "$filename"
     ;;
   edit)
-    $EDITOR $filename
+    $EDITOR "$filename"
     ;;
   summary)
     echo "Summary"
     echo "-------"
-    echo "Total: $(wc -l < $filename)"
-    echo "Completed: $(grep -c "^done" $filename)"
-    echo "Pending: $(grep -c "^todo" $filename)"
+    echo "Total: $(wc -l < "$filename")"
+    echo "Completed: $(grep -c "^done" "$filename")"
+    echo "Pending: $(grep -c "^todo" "$filename")"
     ;;
   *)
     echo "Invalid command"
