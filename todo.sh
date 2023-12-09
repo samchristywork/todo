@@ -4,6 +4,7 @@ filename="todo.txt"
 
 if [ $# -eq 0 ]; then
   ./todo.sh add
+  exit 0
 fi
 
 case "$1" in
