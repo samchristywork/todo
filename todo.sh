@@ -19,9 +19,9 @@ case "$1" in
   add)
     DATE=$(date +%Y-%m-%d)
 
-    echo "Status: todo
-    Created: $DATE
-    Name: " > /tmp/todo.txt
+    echo "Status: todo" > /tmp/todo.txt
+    echo "Created: $DATE" >> /tmp/todo.txt
+    echo "Name: " >> /tmp/todo.txt
 
     $EDITOR /tmp/todo.txt
 
