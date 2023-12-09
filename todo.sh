@@ -45,8 +45,8 @@ case "$1" in
     echo "Summary"
     echo "-------"
     echo "Total: $(wc -l < $filename)"
-    echo "Completed: $(grep -c "Status: done" $filename)"
-    echo "Pending: $(grep -c "Status: todo" $filename)"
+    echo "Completed: $(grep -c "^done" $filename)"
+    echo "Pending: $(grep -c "^todo" $filename)"
     ;;
   *)
     echo "Invalid command"
