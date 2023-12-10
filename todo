@@ -31,6 +31,7 @@ case "$1" in
     echo "Usage: $0 <command>"
     echo "Commands:"
     echo "  add"
+    echo "  random <number>"
     echo "  show"
     echo "  edit"
     echo "  summary"
@@ -38,6 +39,15 @@ case "$1" in
     ;;
   add)
     add_todo
+    ;;
+  random)
+    number=1
+
+    if [ $# -eq 2 ]; then
+      number="$2"
+    fi
+
+    shuf -n "$number" "$filename"
     ;;
   show)
     cat "$filename"
