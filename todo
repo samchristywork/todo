@@ -34,6 +34,7 @@ case "$1" in
     echo "Usage: $0 <command>"
     echo "Commands:"
     echo "  add"
+    echo "  categories"
     echo "  random <number>"
     echo "  show"
     echo "  edit"
@@ -42,6 +43,11 @@ case "$1" in
     ;;
   add)
     add_todo
+    ;;
+  categories)
+    awk '{print $3}' "$filename" | \
+      sort | \
+      uniq -c
     ;;
   random)
     number=1
