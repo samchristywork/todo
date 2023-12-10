@@ -47,6 +47,7 @@ case "$1" in
     echo "Total: $(wc -l < "$filename")"
     echo "Completed: $(grep -c "^done" "$filename")"
     echo "Pending: $(grep -c "^todo" "$filename")"
+    echo "Other: $(grep -cv "^todo\|^done" "$filename")"
     ;;
   *)
     echo "Invalid command"
