@@ -3,7 +3,7 @@
 filename="$HOME/todo"
 
 if [ $# -eq 0 ]; then
-  ./todo.sh add
+  todo add
   exit 0
 fi
 
