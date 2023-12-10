@@ -2,8 +2,27 @@
 
 filename="$HOME/todo"
 
+function add_todo() {
+  DATE=$(date +%Y-%m-%d)
+
+  echo "Status: todo" > /tmp/todo.txt
+  echo "Created: $DATE" >> /tmp/todo.txt
+  echo "Name: " >> /tmp/todo.txt
+
+  $EDITOR /tmp/todo.txt
+
+  if [ -s /tmp/todo.txt ]; then
+    sed 's/.\+: //g' < /tmp/todo.txt | \
+      tr '\n' '\t' | \
+      sed 's/\t$/\n/g' >> "$filename"
+          echo "Added to $filename"
+        else
+          echo "No changes made"
+  fi
+}
+
 if [ $# -eq 0 ]; then
-  todo add
+  add_todo
   exit 0
 fi
 
@@ -18,22 +37,7 @@ case "$1" in
     echo "  help"
     ;;
   add)
-    DATE=$(date +%Y-%m-%d)
-
-    echo "Status: todo" > /tmp/todo.txt
-    echo "Created: $DATE" >> /tmp/todo.txt
-    echo "Name: " >> /tmp/todo.txt
-
-    $EDITOR /tmp/todo.txt
-
-    if [ -s /tmp/todo.txt ]; then
-      sed 's/.\+: //g' < /tmp/todo.txt | \
-        tr '\n' '\t' | \
-        sed 's/\t$/\n/g' >> "$filename"
-              echo "Added to $filename"
-            else
-              echo "No changes made"
-    fi
+    add_todo
     ;;
   show)
     cat "$filename"
