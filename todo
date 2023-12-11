@@ -45,7 +45,7 @@ case "$1" in
     add_todo
     ;;
   categories)
-    awk '{print $3}' "$filename" | \
+    awk '/^todo/{print $3}' "$filename" | \
       sort | \
       uniq -c
     ;;
