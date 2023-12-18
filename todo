@@ -1,6 +1,6 @@
 #!/bin/bash
 
-filename="$HOME/todo"
+filename="$HOME/.todo"
 
 function add_todo() {
   DATE=$(date +%Y-%m-%d)
@@ -33,13 +33,13 @@ case "$1" in
   help)
     echo "Usage: $0 <command>"
     echo "Commands:"
-    echo "  add"
-    echo "  categories"
-    echo "  random <number>"
-    echo "  show"
-    echo "  edit"
-    echo "  summary"
-    echo "  help"
+    echo "  add - add a new todo"
+    echo "  categories - list categories"
+    echo "  random <number> - show random todo"
+    echo "  show - show all todos"
+    echo "  edit - edit todo file"
+    echo "  summary - show todo summary"
+    echo "  help - show this help"
     ;;
   add)
     add_todo
