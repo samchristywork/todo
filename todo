@@ -61,7 +61,7 @@ case "$1" in
     shuf -n "$number" "$filename"
     ;;
   show)
-    cat "$filename"
+    column -t -s $'\t' < "$filename"
     ;;
   search)
     fzf --preview 'echo {}' < "$filename"
