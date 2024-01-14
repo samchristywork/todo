@@ -59,7 +59,7 @@ case "$1" in
       number="$2"
     fi
 
-    shuf -n "$number" "$filename"
+    grep "^todo" "$filename" | shuf -n "$number"
     ;;
   show)
     column -t -s $'\t' < "$filename"
