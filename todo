@@ -37,6 +37,7 @@ case "$1" in
     echo "  categories - list categories"
     echo "  random <number> - show random todo"
     echo "  show - show all todos"
+    echo "  search - search todos"
     echo "  edit - edit todo file"
     echo "  summary - show todo summary"
     echo "  help - show this help"
@@ -60,6 +61,9 @@ case "$1" in
     ;;
   show)
     cat "$filename"
+    ;;
+  search)
+    fzf --preview 'echo {}' < "$filename"
     ;;
   edit)
     $EDITOR "$filename"
