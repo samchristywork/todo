@@ -8,6 +8,7 @@ function add_todo() {
   (
   echo "Status: todo"
   echo "Created: $DATE"
+  echo "RVUs: "
   echo "Category: uncategorized"
   echo "Name: "
   ) > /tmp/todo.txt
@@ -46,7 +47,7 @@ case "$1" in
     add_todo
     ;;
   categories)
-    awk '/^todo/{print $3}' "$filename" | \
+    awk '/^todo/{print $4}' "$filename" | \
       sort | \
       uniq -c
     ;;
