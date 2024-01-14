@@ -38,6 +38,7 @@ case "$1" in
     echo "  categories - list categories"
     echo "  random <number> - show random todo"
     echo "  show - show all todos"
+    echo "  rvus - sum rvus"
     echo "  search - search todos"
     echo "  edit - edit todo file"
     echo "  summary - show todo summary"
@@ -62,6 +63,10 @@ case "$1" in
     ;;
   show)
     column -t -s $'\t' < "$filename"
+    ;;
+  rvus)
+    awk '/^done/{print $3}' "$filename" | \
+      awk '{sum+=$1} END {print sum}'
     ;;
   search)
     fzf --preview 'echo {}' < "$filename"
