@@ -38,9 +38,9 @@ EOF
     sed 's/.\+: //g' < /tmp/todo.txt | \
       tr '\n' '\t' | \
       sed 's/\t$/\n/g' >> "$filename"
-          echo "Added to $filename"
-        else
-          echo "No changes made"
+    echo "Added to $filename"
+  else
+    echo "No changes made"
   fi
 }
 
@@ -81,11 +81,14 @@ case "$1" in
     grep "^todo" "$filename" | shuf -n "$number"
     ;;
   show)
-    column -t -s $'\t' < "$filename"
+    column -t -s $'\t' < "$filename" | sort
     ;;
   rvus)
-    awk '/^done/{print $3}' "$filename" | \
-      awk '{sum+=$1} END {print sum}'
+    awk '
+      BEGIN {sum=0}
+      /^done/ {sum+=$3}
+      END {print sum}
+    ' "$filename"
     ;;
   search)
     fzf --preview 'echo {}' < "$filename"
