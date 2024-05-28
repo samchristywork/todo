@@ -1,5 +1,24 @@
 #!/bin/bash
 
+function check_command() {
+  local COMMAND="$1"
+  command -v "$COMMAND" > /dev/null 2>&1 || {
+    echo >&2 "$COMMAND not found."
+    exit 1
+  }
+}
+
+check_command awk
+check_command column
+check_command fzf
+check_command grep
+check_command sed
+check_command shuf
+check_command sort
+check_command tr
+check_command uniq
+check_command wc
+
 filename="$HOME/.todo"
 
 test -e "$filename" || touch "$filename"
