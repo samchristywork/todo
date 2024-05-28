@@ -49,19 +49,28 @@ if [ $# -eq 0 ]; then
   exit 0
 fi
 
+function usage() {
+  cat <<EOF
+Usage: $0 <command>
+Commands:
+EOF
+  cat <<EOF | column -t -s '	'
+  add	Add a new todo
+  categories	List categories
+  random <number>	Show random todo
+  show	Show all todos
+  rvus	Sum rvus
+  search	Search todos
+  edit	Edit todo file
+  summary	Show todo summary
+  help	Show this help
+EOF
+  exit 1
+}
+
 case "$1" in
   help)
-    echo "Usage: $0 <command>"
-    echo "Commands:"
-    echo "  add - add a new todo"
-    echo "  categories - list categories"
-    echo "  random <number> - show random todo"
-    echo "  show - show all todos"
-    echo "  rvus - sum rvus"
-    echo "  search - search todos"
-    echo "  edit - edit todo file"
-    echo "  summary - show todo summary"
-    echo "  help - show this help"
+    usage
     ;;
   add)
     add_todo
@@ -106,6 +115,7 @@ case "$1" in
     ;;
   *)
     echo "Invalid command"
-    exit 1
+    echo
+    usage
     ;;
 esac
