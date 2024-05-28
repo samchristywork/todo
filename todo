@@ -57,13 +57,14 @@ EOF
   cat <<EOF | column -t -s '	'
   add	Add a new todo
   categories	List categories
+  edit	Edit todo file
+  help	Show this help
+  oldest	Show oldest todo
   random <number>	Show random todo
-  show	Show all todos
   rvus	Sum rvus
   search	Search todos
-  edit	Edit todo file
+  show	Show all todos
   summary	Show todo summary
-  help	Show this help
 EOF
   exit 1
 }
@@ -104,6 +105,9 @@ case "$1" in
     ;;
   edit)
     $EDITOR "$filename"
+    ;;
+  oldest)
+    grep "^todo" "$filename" | sort | head -n 1
     ;;
   summary)
     echo "Summary"
