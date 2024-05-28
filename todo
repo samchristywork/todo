@@ -24,15 +24,13 @@ filename="$HOME/.todo"
 test -e "$filename" || touch "$filename"
 
 function add_todo() {
-  DATE=$(date +%Y-%m-%d)
-
-  (
-  echo "Status: todo"
-  echo "Created: $DATE"
-  echo "RVUs: "
-  echo "Category: uncategorized"
-  echo "Name: "
-  ) > /tmp/todo.txt
+  cat <<EOF > /tmp/todo.txt
+Status: todo
+Created: $(date +%Y-%m-%d)
+RVUs: 1
+Category: uncategorized
+Name: 
+EOF
 
   $EDITOR /tmp/todo.txt
 
