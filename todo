@@ -52,18 +52,19 @@ fi
 function usage() {
   cat <<EOF
 Usage: $0 <command>
+
 Commands:
 EOF
-  cat <<EOF | column -t -s '	'
+  cat << EOF | column -t -s '	' | sort
   add	Add a new todo
   categories	List categories
   edit	Edit todo file
   help	Show this help
   oldest	Show oldest todo
-  random <number>	Show random todo
+  random <n>	Show random todo
   rvus	Sum rvus
   search	Search todos
-  show	Show all todos
+  show	Show all todos that aren't complete
   summary	Show todo summary
 EOF
   exit 1
@@ -91,7 +92,7 @@ case "$1" in
     grep "^todo" "$filename" | shuf -n "$number"
     ;;
   show)
-    column -t -s $'\t' < "$filename" | sort
+    sed '/^done	/d' "$filename" | column -t -s $'\t' | sort
     ;;
   rvus)
     awk '
@@ -107,7 +108,7 @@ case "$1" in
     $EDITOR "$filename"
     ;;
   oldest)
-    grep "^todo" "$filename" | sort | head -n 1
+    grep "^todo" "$filename" | sort | head -n 1 | awk 'BEGIN {FS="\t"} {print $5}'
     ;;
   summary)
     echo "Summary"
