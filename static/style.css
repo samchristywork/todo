@@ -1,0 +1,105 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f9;
+}
+
+.container {
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+h1 {
+  background-color: #35424a;
+  color: #fff;
+  padding: 2rem 0;
+  text-align: center;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  background: #fff;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  margin-top: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+input[type="text"] {
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  margin-right: 0.5rem;
+  margin-top: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+button {
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #35424a;
+  color: white;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+  background-color: #454e57;
+}
+
+.delete-form {
+  float: right;
+}
+
+li {
+  overflow: hidden;
+}
+
+li span {
+  top: 0.5rem;
+  position: relative;
+}
+
+a {
+  color: #35424a;
+}
+
+a:visited {
+  color: #35424a;
+}
+
+.tag {
+  background-color: #35424a;
+  color: #fff;
+  text-decoration: none;
+  padding: 0.5rem;
+  margin: 0.25rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.tag:hover {
+  background-color: #454e57;
+}
+
+.tag:visited {
+  color: #fff;
+}
+
+.tagbar {
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 1rem;
+}
