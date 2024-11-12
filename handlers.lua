@@ -9,6 +9,7 @@ local todos_file = "todos.txt"
 local todos = serialization.load(todos_file) or {}
 
 local TodoHandler = class("TodoHandler", turbo.web.RequestHandler)
+local ShowHandler = class("ShowHandler", turbo.web.RequestHandler)
 
 function TodoHandler:get()
   local category = urldecode(self:get_argument("category", ""))
@@ -84,6 +85,60 @@ function TodoHandler:get()
   self:write(html_form_template:format(tags, list_items, turbo.escape.html_escape(default_category)))
 end
 
+function ShowHandler:get()
+  local index = urldecode(self:get_argument("index", 1))
+
+  local categories = {}
+
+  for _, todo in ipairs(todos) do
+    categories[todo.category] = true
+  end
+
+  local category_list = {}
+  for cat in pairs(categories) do
+    table.insert(category_list, cat)
+  end
+  table.sort(category_list)
+
+  local tags = ""
+  for _, cat in ipairs(category_list) do
+    tags = tags .. string.format("<a class='tag' href='/todo?category=%s'>%s</a>", urlencode(cat), cat)
+  end
+
+  local html_form_template = [[<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tasks</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <h1>Tasks</h1>
+  <div class="container">
+    <div class="tagbar">%s</div>
+    <form action="/update" method="POST">
+      <input type="text" name="task" placeholder="Task Name" value="%s" autofocus required><br>
+      <input type="text" name="category" placeholder="Category" value="%s" required><br>
+      <input type="number" name="index" value="%d" hidden>
+      <button type="submit">Update Task</button>
+    </form>
+  </div>
+</body>
+</html>]]
+
+  local todo = todos[tonumber(index)]
+  print(todo.category)
+  print(todo.task)
+  self:write(html_form_template:format(
+      tags,
+      todo.task,
+      todo.category,
+      index
+    ))
+end
+
 return {
   TodoHandler = TodoHandler,
+  ShowHandler = ShowHandler,
 }
