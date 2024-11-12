@@ -1,0 +1,89 @@
+local turbo = require("turbo")
+local serialization = require("serialization")
+local util = require("util")
+
+local urlencode = util.urlencode
+local urldecode = util.urldecode
+
+local todos_file = "todos.txt"
+local todos = serialization.load(todos_file) or {}
+
+local TodoHandler = class("TodoHandler", turbo.web.RequestHandler)
+
+function TodoHandler:get()
+  local category = urldecode(self:get_argument("category", ""))
+  local default_category = ""
+  local categories = {}
+  local list_items = ""
+
+  for _, todo in ipairs(todos) do
+    categories[todo.category] = true
+    if not category:match("%S") then category = todo.category end
+  end
+
+  if category:match("%S") then
+    default_category = category
+  end
+
+  for i, todo in ipairs(todos) do
+    if todo.category == category then
+      list_items = list_items .. string.format(
+        [[<li>
+  <span><a href="/show?index=%d">%s</a></span>
+  <form class="delete-form" action="/remove?index=%d&category=%s" method="POST"
+    onsubmit="return confirm('Are you sure you want to delete this task?');">
+    <button type="submit">Delete</button>
+  </form>
+</li>]],
+        i, turbo.escape.html_escape(todo.task), i, urlencode(category)
+      )
+    end
+  end
+
+  if list_items == "" then
+    for cat in pairs(categories) do
+      self:redirect("/todo?category=" .. urlencode(cat))
+      return
+    end
+    list_items = '<li>No items to display!</li>'
+  end
+
+  local category_list = {}
+  for cat in pairs(categories) do
+    table.insert(category_list, cat)
+  end
+  table.sort(category_list)
+
+  local tags = ""
+  for _, cat in ipairs(category_list) do
+    tags = tags .. string.format("<a class='tag' href='/todo?category=%s'>%s</a>", urlencode(cat), cat)
+  end
+
+  local html_form_template = [[<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tasks</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <h1>Tasks</h1>
+  <div class="container">
+    <div style="overflow-x: auto; white-space: nowrap; padding: 1rem;">%s</div>
+    <ul>%s</ul>
+    <form action="/add" method="POST">
+      <input type="text" name="task" placeholder="New task" autofocus required>
+      <input type="text" name="category" placeholder="Category" value="%s" required>
+      <button type="submit">Add Task</button>
+    </form>
+  </div>
+</body>
+</html>]]
+
+  self:write(html_form_template:format(tags, list_items, turbo.escape.html_escape(default_category)))
+end
+
+return {
+  TodoHandler = TodoHandler,
+}
