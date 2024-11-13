@@ -10,6 +10,7 @@ local todos = serialization.load(todos_file) or {}
 
 local TodoHandler = class("TodoHandler", turbo.web.RequestHandler)
 local ShowHandler = class("ShowHandler", turbo.web.RequestHandler)
+local AddHandler = class("AddHandler", turbo.web.RequestHandler)
 
 function TodoHandler:get()
   local category = urldecode(self:get_argument("category", ""))
@@ -138,7 +139,22 @@ function ShowHandler:get()
     ))
 end
 
+function AddHandler:post()
+  local task = self:get_argument("task")
+  local category = self:get_argument("category")
+
+  if task and category then
+    table.insert(todos, {task = task, category = category})
+    serialization.save(todos_file, todos)
+    self:redirect("/todo?category=" .. urlencode(category))
+  else
+    self:set_status(400)
+    self:write({error = "Invalid task or category"})
+  end
+end
+
 return {
   TodoHandler = TodoHandler,
   ShowHandler = ShowHandler,
+  AddHandler = AddHandler,
 }
