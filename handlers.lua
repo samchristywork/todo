@@ -13,6 +13,7 @@ local ShowHandler = class("ShowHandler", turbo.web.RequestHandler)
 local AddHandler = class("AddHandler", turbo.web.RequestHandler)
 local UpdateHandler = class("UpdateHandler", turbo.web.RequestHandler)
 local RemoveHandler = class("RemoveHandler", turbo.web.RequestHandler)
+local ErrorHandler = class("ErrorHandler", turbo.web.RequestHandler)
 
 function TodoHandler:get()
   local category = urldecode(self:get_argument("category", ""))
@@ -194,4 +195,5 @@ return {
   AddHandler = AddHandler,
   UpdateHandler = UpdateHandler,
   RemoveHandler = RemoveHandler,
+  ErrorHandler = ErrorHandler
 }
