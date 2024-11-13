@@ -12,6 +12,7 @@ local TodoHandler = class("TodoHandler", turbo.web.RequestHandler)
 local ShowHandler = class("ShowHandler", turbo.web.RequestHandler)
 local AddHandler = class("AddHandler", turbo.web.RequestHandler)
 local UpdateHandler = class("UpdateHandler", turbo.web.RequestHandler)
+local RemoveHandler = class("RemoveHandler", turbo.web.RequestHandler)
 
 function TodoHandler:get()
   local category = urldecode(self:get_argument("category", ""))
@@ -130,8 +131,6 @@ function ShowHandler:get()
 </html>]]
 
   local todo = todos[tonumber(index)]
-  print(todo.category)
-  print(todo.task)
   self:write(html_form_template:format(
       tags,
       todo.task,
@@ -159,8 +158,6 @@ function UpdateHandler:post()
   local category = self:get_argument("category")
   local index = self:get_argument("index")
 
-  print(1)
-
   if task and category and index then
     todos[tonumber(index)].task = task
     todos[tonumber(index)].category = category
@@ -172,9 +169,29 @@ function UpdateHandler:post()
   end
 end
 
+function RemoveHandler:post()
+  local index = tonumber(self:get_argument("index"))
+  local category = urldecode(self:get_argument("category") or "")
+
+  if index and todos[index] then
+    table.remove(todos, index)
+    serialization.save(todos_file, todos)
+    self:redirect("/todo?category=" .. urlencode(category))
+  else
+    self:set_status(400)
+    self:write({error = "Invalid task"})
+  end
+end
+
+function ErrorHandler:get()
+  self:set_status(404)
+  self:write("404 - Page Not Found")
+end
+
 return {
   TodoHandler = TodoHandler,
   ShowHandler = ShowHandler,
   AddHandler = AddHandler,
   UpdateHandler = UpdateHandler,
+  RemoveHandler = RemoveHandler,
 }
