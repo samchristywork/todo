@@ -61,7 +61,11 @@ function TodoHandler:get()
 
   local tags = ""
   for _, cat in ipairs(category_list) do
-    tags = tags .. string.format("<a class='tag' href='/todo?category=%s'>%s</a>", urlencode(cat), cat)
+    local class = ""
+    if cat == category then
+      class = "current"
+    end
+    tags = tags .. string.format("<a class='tag %s' href='/todo?category=%s'>%s</a>", class, urlencode(cat), cat)
   end
 
   local html_form_template = [[<!DOCTYPE html>
@@ -70,7 +74,7 @@ function TodoHandler:get()
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tasks</title>
-  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h1>Tasks</h1>
@@ -115,7 +119,7 @@ function ShowHandler:get()
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tasks</title>
-  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h1>Tasks</h1>
