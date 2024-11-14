@@ -1,12 +1,27 @@
 local turbo = require("turbo")
 local serialization = require("serialization")
 local util = require("util")
+local fs = require("turbo.fs")
 
 local urlencode = util.urlencode
 local urldecode = util.urldecode
 
 local todos_file = "todos.txt"
 local todos = serialization.load(todos_file) or {}
+
+function read_file(filename)
+  local file, err = io.open(filename, "r")
+  if not file then
+    return nil, "Error opening file: " .. err
+  end
+
+  local content = file:read("*a")
+  file:close()
+
+  return content
+end
+
+local css_content = read_file("static/style.css")
 
 local TodoHandler = class("TodoHandler", turbo.web.RequestHandler)
 local ShowHandler = class("ShowHandler", turbo.web.RequestHandler)
@@ -74,7 +89,7 @@ function TodoHandler:get()
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tasks</title>
-  <link rel="stylesheet" href="style.css">
+  <style>%s</style>
 </head>
 <body>
   <h1>Tasks</h1>
@@ -90,7 +105,7 @@ function TodoHandler:get()
 </body>
 </html>]]
 
-  self:write(html_form_template:format(tags, list_items, turbo.escape.html_escape(default_category)))
+  self:write(html_form_template:format(css_content, tags, list_items, turbo.escape.html_escape(default_category)))
 end
 
 function ShowHandler:get()
@@ -119,7 +134,7 @@ function ShowHandler:get()
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tasks</title>
-  <link rel="stylesheet" href="style.css">
+  <style>%s</style>
 </head>
 <body>
   <h1>Tasks</h1>
@@ -137,6 +152,7 @@ function ShowHandler:get()
 
   local todo = todos[tonumber(index)]
   self:write(html_form_template:format(
+      css_content,
       tags,
       todo.task,
       todo.category,
