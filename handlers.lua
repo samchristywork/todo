@@ -21,7 +21,7 @@ function read_file(filename)
   return content
 end
 
-local css_content = read_file("static/style.css")
+local css_content = read_file("style.css")
 
 local TodoHandler = class("TodoHandler", turbo.web.RequestHandler)
 local ShowHandler = class("ShowHandler", turbo.web.RequestHandler)

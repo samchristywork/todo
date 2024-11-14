@@ -7,7 +7,6 @@ local app = turbo.web.Application({
   {"^/add$", handlers.AddHandler},
   {"^/update$", handlers.UpdateHandler},
   {"^/remove$", handlers.RemoveHandler},
-  {"^/style.css$", turbo.web.StaticFileHandler, "./static/style.css"},
   {"^/$", turbo.web.RedirectHandler, "/todo"},
   {"^.*$", handlers.ErrorHandler}
 })
