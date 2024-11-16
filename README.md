@@ -2,9 +2,24 @@
 
 ## Overview
 
+<p align="center">
+  <img src="./assets/screenshot.png" width=500 />
+</p>
+
+This Lua-based web application is designed for managing a simple todo list using
+the Turbo.lua framework. The application provides basic CRUD (Create, Read,
+Update, Delete) operations on task entries stored in a local text file.
+
 ## Features
 
 ## Setup
+
+Install dependencies listed below, and then run the following command to install
+the Turbo library:
+
+```
+luarocks install turbo
+```
 
 ## Usage
 
