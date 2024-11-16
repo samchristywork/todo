@@ -35,9 +35,27 @@ luarocks install turbo
 
 ## Usage
 
+Start the server with:
+
+```
+luajit main.lua
+```
+
+then open your browser to localhost:8888
+
 ## Dependencies
 
+```
+luajit
+luarocks
+git
+build-essential
+libssl-dev
+```
+
 ## Implementation Details
+
+The individual TODO items are saved in a plain text file called todos.txt.
 
 ## License
 
